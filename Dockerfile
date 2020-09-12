@@ -34,10 +34,13 @@ RUN apt-get update && \
     libssl1.1 && \
     ldconfig && \
     adduser --shell /sbin/nologin --disabled-login --gecos "" appuser && \
-    mkdir -p /home/appuser/tool
+    mkdir -p /home/appuser/
+
+WORKDIR /usr/local/bin
+COPY "manalyze-switch.sh" "manalyze-switch.sh"
+RUN chmod +x manalyze-switch.sh
 
 USER appuser
-WORKDIR /home/appuser/tool
+WORKDIR /home/appuser
 
-ENTRYPOINT ["manalyze"]
-CMD ["--help"]
+ENTRYPOINT ["/usr/local/bin/manalyze-switch.sh"]
