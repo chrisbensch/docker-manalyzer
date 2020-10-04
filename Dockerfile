@@ -31,10 +31,14 @@ RUN apt-get update && \
     libboost-program-options1.67.0 \
     libboost-system1.67.0 \
     libboost-filesystem1.67.0 \
+    python \
     libssl1.1 && \
     ldconfig && \
     adduser --shell /sbin/nologin --disabled-login --gecos "" appuser && \
     mkdir -p /home/appuser/
+
+WORKDIR /etc/manalyze/yara_rules
+RUN python update_clamav_signatures.py
 
 WORKDIR /usr/local/bin
 COPY "manalyze-switch.sh" "manalyze-switch.sh"
